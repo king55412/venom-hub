@@ -1,0 +1,70 @@
+local DiscordLib = loadstring(game:HttpGet"https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/discord%20lib.txt")()
+
+local win = DiscordLib:Window("Venom Hub │ Destruction Simulator ")
+
+local serv = win:Server(" Main Menu ", "")
+local tgls = serv:Channel("Main Function >")
+
+tgls:Seperator()
+
+tgls:Label("                         - SLAYING  &  SCOTTX -                                       ")
+
+tgls:Seperator()
+
+tgls:Toggle("Auto-Rankup",false, function(v)
+    getgenv().autorankup = v
+    while true do
+        if not getgenv().autorankup then return end
+        for _,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if v:FindFirstChild("Rank") then
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                break
+            end
+        end
+    game:GetService("ReplicatedStorage").Remotes.rankUp:FireServer()
+    wait(0.1)
+end
+end)
+
+tgls:Toggle("Auto-Sell",false, function(v)
+    getgenv().autosell = v
+    while true do
+        if not getgenv().autosell then return end
+            game:GetService("ReplicatedStorage").Remotes.sellBricks:FireServer()
+            wait(0.1)
+        end
+        end)
+
+        tgls:Seperator()
+
+        tgls:Button("No Cooldown Gun", function()
+            for i,v in next,getgc(true)do
+                if type(v)=='table'and rawget(v,'Cooldown')then
+                    v.Cooldown = 0
+                end
+             end
+            DiscordLib:Notification("Venom Hub No.1", "Got it!", "Okay!")
+            end)
+
+
+        local btns = serv:Channel("Player >")
+btns:Button("Inf Money", function()
+    game:GetService("ReplicatedStorage").Remotes.generateBoost:FireServer("Coins", 480, 99999999)
+    DiscordLib:Notification("Venom Hub No.1", "You Got Inf Money!", "Yeah Haha!")
+end)
+
+      btns:Seperator()
+
+btns:Button("Inf Levels", function()
+    game:GetService("ReplicatedStorage").Remotes.generateBoost:FireServer("Levels", 480, 15)
+    DiscordLib:Notification("Venom Hub No.1", "You Got Inf Levels!", "Good Haha!")
+end)
+
+btns:Seperator()
+
+local btns = btns:Slider("Walkspeed", 16, 200, 16, function(v)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
+    end)
+    btns:Button("Change to 16", function()
+        sldr:Change(16)
+        end)
